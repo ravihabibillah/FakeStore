@@ -57,5 +57,22 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<dynamic> removeProduct(int id) async {
+    isError(false);
+    isLoading(true);
+    try {
+      var isSuccess = await ApiService.removeProduct(id);
+      if (isSuccess) {
+        message.value = 'Remove product success';
+        isLoading(false);
+      } else {
+        message.value = 'Failed to remove product';
+      }
+    } catch (e) {
+      isLoading(false);
+      isError(true);
+      return message.value = 'No internet connection';
+    }
+  }
 
 }
