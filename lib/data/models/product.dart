@@ -10,20 +10,20 @@ List<Product> productFromJson(String str) => List<Product>.from(json.decode(str)
 
 class Product {
   Product({
-    required this.id,
+    this.id,
     required this.title,
     required this.price,
     required this.description,
-    required this.category,
+    this.category,
     required this.image,
     required this.rating,
   });
 
-  int id;
+  int? id;
   String title;
   double price;
   String description;
-  String category;
+  String? category;
   String image;
   Rating rating;
 
@@ -38,11 +38,11 @@ class Product {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+    // "id": id,
     "title": title,
     "price": price,
     "description": description,
-    "category": category,
+    // "category": category,
     "image": image,
     "rating": rating.toJson(),
   };
