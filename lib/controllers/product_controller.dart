@@ -61,12 +61,30 @@ class ProductController extends GetxController {
     isError(false);
     isLoading(true);
     try {
-      var isSuccess = await ApiService.removeProduct(id);
+      var isSuccess = await ApiService.deleteProduct(id);
       if (isSuccess) {
         message.value = 'Remove product success';
         isLoading(false);
       } else {
         message.value = 'Failed to remove product';
+      }
+    } catch (e) {
+      isLoading(false);
+      isError(true);
+      return message.value = 'No internet connection';
+    }
+  }
+
+  Future<dynamic> updateProduct(Product data) async {
+    isError(false);
+    isLoading(true);
+    try {
+      var isSuccess = await ApiService.updateProduct(data);
+      if (isSuccess) {
+        message.value = 'Update product success';
+        isLoading(false);
+      } else {
+        message.value = 'Failed to update product';
       }
     } catch (e) {
       isLoading(false);
