@@ -8,8 +8,6 @@ class ApiService {
   static const String _baseUrl = 'https://fakestoreapi.com/';
   static const String _product = 'products';
 
-  // bool isSuccess = false;
-
   static Future<List<Product>> fetchProducts() async {
     var response = await client.get(Uri.parse(_baseUrl + _product));
 
@@ -28,7 +26,17 @@ class ApiService {
         body: jsonEncode(data.toJson()));
 
     if (response.statusCode == 200) {
-      // isSuccess = true;
+      return true;
+    } else {
+      // show error message
+      throw Exception('Failed to add product');
+    }
+  }
+
+  static Future<bool> removeProduct(int id) async {
+    var response = await client.delete(Uri.parse(_baseUrl + _product + '/$id'));
+
+    if (response.statusCode == 200) {
       return true;
     } else {
       // show error message
