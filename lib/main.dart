@@ -1,5 +1,5 @@
 import 'package:fake_store/utils/navigation.dart';
-import 'package:fake_store/views/add_product_page.dart';
+import 'package:fake_store/views/add_update_product_page.dart';
 import 'package:fake_store/views/detail_product_page.dart';
 import 'package:fake_store/views/home_page.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,14 @@ class MyApp extends StatelessWidget {
       initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName: (context) => HomePage(),
-        AddProductPage.routeName: (context) => AddProductPage(),
+        AddUpdateProductPage.routeName: (context) {
+          if (ModalRoute.of(context)!.settings.arguments != null) {
+            return AddUpdateProductPage(
+                product: ModalRoute.of(context)!.settings.arguments as Product);
+          } else {
+            return const AddUpdateProductPage();
+          }
+        },
         DetailProductPage.routeName: (context) => DetailProductPage(
               product: ModalRoute.of(context)?.settings.arguments as Product,
             ),
