@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../utils/navigation.dart';
-import 'add_product_page.dart';
+import 'add_update_product_page.dart';
 
 class HomePage extends StatelessWidget {
   static const routeName = '/home_page';
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
         tooltip: 'Add Product',
         child: Icon(Icons.add),
         onPressed: () {
-          Navigation.intentWithoutData(AddProductPage.routeName);
+          Navigation.intentWithoutData(AddUpdateProductPage.routeName);
         },
       ),
     );

@@ -6,16 +6,18 @@ import '../common/style.dart';
 import '../controllers/product_controller.dart';
 import '../utils/navigation.dart';
 
-class AddProductPage extends StatefulWidget {
-  const AddProductPage({Key? key}) : super(key: key);
+class AddUpdateProductPage extends StatefulWidget {
+  const AddUpdateProductPage({Key? key, this.product}) : super(key: key);
 
   static const routeName = '/add_product';
 
+  final Product? product;
+
   @override
-  State<AddProductPage> createState() => _AddProductPageState();
+  State<AddUpdateProductPage> createState() => _AddUpdateProductPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
+class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
   final _productFormKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -23,6 +25,20 @@ class _AddProductPageState extends State<AddProductPage> {
   final TextEditingController _imageUrlController = TextEditingController();
 
   final ProductController productController = Get.put(ProductController());
+
+  bool _isUpdate = false;
+
+  void initState() {
+    if (widget.product != null) {
+      _titleController.text = widget.product!.title;
+      _descriptionController.text = widget.product!.description;
+      _priceController.text = widget.product!.price.toString();
+      _imageUrlController.text = widget.product!.description;
+
+      _isUpdate = true;
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -36,7 +52,10 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Product'),
+        title: Text(
+          _isUpdate ? "Edit Product" : "Add Product",
+          // style: blackStyle,
+        ),
       ),
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -125,7 +144,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   if (_productFormKey.currentState!.validate()) {
                     Rating rating = Rating(rate: 0.0, count: 0);
 
-                    Product product = Product(
+                    Product data = Product(
                       title: _titleController.text,
                       price: double.parse(
                           _priceController.text.replaceAll(",", "")),
@@ -134,10 +153,16 @@ class _AddProductPageState extends State<AddProductPage> {
                       image: _imageUrlController.text,
                       rating: rating,
                     );
-                    await productController.addProduct(product);
+
+                    if (!_isUpdate) {
+                      await productController.addProduct(data);
+                    } else {
+                      data.id = widget.product?.id;
+                      await productController.updateProduct(data);
+                    }
 
                     Get.snackbar(
-                      'Add Product Message',
+                      _isUpdate ? 'Update Product Message' : 'Add Product Message',
                       productController.message.value,
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: grayColor,
