@@ -4,6 +4,9 @@ import 'package:fake_store/widgets/product_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../utils/navigation.dart';
+import 'add_product_page.dart';
+
 class HomePage extends StatelessWidget {
   static const routeName = '/home_page';
 
@@ -19,9 +22,13 @@ class HomePage extends StatelessWidget {
       ),
       body: Obx(
         () {
-          if (productController.isLoading.value)
-            return Center(child: CircularProgressIndicator());
-          else {
+          if (productController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (productController.noData.value) {
+            return Center(
+              child: Text(productController.message.value),
+            );
+          } else if (productController.hasData.value) {
             return ListView.builder(
               shrinkWrap: true,
               itemCount: productController.productList.length,
@@ -30,7 +37,20 @@ class HomePage extends StatelessWidget {
                     product: productController.productList[index]);
               },
             );
+          } else if (productController.isError.value) {
+            return Center(
+              child: Text(productController.message.value),
+            );
+          } else {
+            return Center();
           }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Add Product',
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigation.intentWithoutData(AddProductPage.routeName);
         },
       ),
     );
