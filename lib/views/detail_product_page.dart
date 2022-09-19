@@ -1,10 +1,12 @@
 import 'package:fake_store/common/style.dart';
+import 'package:fake_store/utils/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/product_controller.dart';
 import '../data/models/product.dart';
 
-class DetailProductPage extends StatelessWidget {
+class DetailProductPage extends StatefulWidget {
   static const routeName = '/detail_product';
 
   const DetailProductPage({Key? key, required this.product}) : super(key: key);
@@ -12,10 +14,39 @@ class DetailProductPage extends StatelessWidget {
   final Product product;
 
   @override
+  State<DetailProductPage> createState() => _DetailProductPageState();
+}
+
+class _DetailProductPageState extends State<DetailProductPage> {
+  final ProductController productController = Get.put(ProductController());
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail Product'),
+        actions: [
+          Container(
+            child: Icon(Icons.edit),
+            margin: EdgeInsets.symmetric(horizontal: 5.0),
+          ),
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                productController.removeProduct(widget.product.id!);
+                Get.snackbar(
+                  'Remove Product Message',
+                  productController.message.value,
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: grayColor,
+                );
+                Navigation.back();
+              },
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 5.0),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -27,7 +58,7 @@ class DetailProductPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: grayColor.withOpacity(0.2),
                 image: DecorationImage(
-                  image: NetworkImage(product.image),
+                  image: NetworkImage(widget.product.image),
                 ),
               ),
             ),
@@ -41,7 +72,7 @@ class DetailProductPage extends StatelessWidget {
                     children: [
                       // Product Price
                       Text(
-                        '\$${product.price}',
+                        '\$${widget.product.price}',
                         style: boldStyle.copyWith(fontSize: 24),
                       ),
                       Spacer(),
@@ -51,12 +82,11 @@ class DetailProductPage extends StatelessWidget {
                         padding: EdgeInsets.all(5),
                         margin: EdgeInsets.only(top: 6, left: 6),
                         decoration: BoxDecoration(
-                          // color: grayColor.withOpacity(0.6),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                          border: Border.all(color: grayColor)
-                        ),
+                            // color: grayColor.withOpacity(0.6),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
+                            border: Border.all(color: grayColor)),
                         child: Row(
                           children: [
                             Icon(
@@ -68,7 +98,7 @@ class DetailProductPage extends StatelessWidget {
                               width: 5,
                             ),
                             Text(
-                              '${product.rating.rate}',
+                              '${widget.product.rating.rate}',
                               style: boldStyle,
                             )
                           ],
@@ -80,7 +110,7 @@ class DetailProductPage extends StatelessWidget {
 
                   // Product Title
                   Text(
-                    product.title,
+                    widget.product.title,
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 14),
@@ -101,14 +131,14 @@ class DetailProductPage extends StatelessWidget {
                             Radius.circular(10),
                           ),
                         ),
-                        child: Text('${product.category?.capitalize}'),
+                        child: Text('${widget.product.category?.capitalize}'),
                       ),
                     ],
                   ),
                   SizedBox(height: 12),
                   // Product Descrioption
                   Text(
-                    product.description,
+                    widget.product.description,
                     textAlign: TextAlign.justify,
                   ),
                 ],
