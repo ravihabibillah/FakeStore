@@ -1,5 +1,6 @@
 import 'package:fake_store/common/style.dart';
 import 'package:fake_store/utils/navigation.dart';
+import 'package:fake_store/views/add_update_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +28,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
         title: Text('Detail Product'),
         actions: [
           Container(
-            child: Icon(Icons.edit),
+            child: IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                Navigation.intentWithProduct(AddUpdateProductPage.routeName, widget.product);
+              },
+            ),
             margin: EdgeInsets.symmetric(horizontal: 5.0),
           ),
           Container(
