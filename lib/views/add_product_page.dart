@@ -134,7 +134,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       image: _imageUrlController.text,
                       rating: rating,
                     );
-                    productController.addProduct(product);
+                    await productController.addProduct(product);
 
                     Get.snackbar(
                       'Add Product Message',
