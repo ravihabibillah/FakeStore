@@ -33,9 +33,22 @@ class ApiService {
     }
   }
 
-  static Future<bool> removeProduct(int id) async {
+  static Future<bool> deleteProduct(int id) async {
     var response = await client.delete(Uri.parse(_baseUrl + _product + '/$id'));
 
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      // show error message
+      throw Exception('Failed to add product');
+    }
+  }
+
+  static Future<bool> updateProduct(Product data) async {
+    var id = data.id;
+    var response = await client.put(Uri.parse(_baseUrl + _product + '/$id'),
+        headers: {'Content-type': 'application/json'},
+        body: jsonEncode(data.toJson()));
     if (response.statusCode == 200) {
       return true;
     } else {
