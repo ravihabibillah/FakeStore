@@ -1,3 +1,5 @@
+import 'package:fake_store/utils/navigation.dart';
+import 'package:fake_store/views/detail_product_page.dart';
 import 'package:flutter/material.dart';
 
 import '../common/style.dart';
@@ -20,7 +22,9 @@ class ProductItem extends StatelessWidget {
           ),
         ),
         child: InkWell(
-          onTap: (){},
+          onTap: () {
+            Navigation.intentWithProduct(DetailProductPage.routeName, product);
+          },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
             height: 190,
@@ -30,12 +34,15 @@ class ProductItem extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
+                      // Image Product
                       Center(
                         child: Image.network(
                           product.image,
                           width: 100,
                         ),
                       ),
+
+                      // Price
                       Container(
                         padding: EdgeInsets.all(3),
                         margin: EdgeInsets.only(top: 6, left: 6),
@@ -61,6 +68,7 @@ class ProductItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Product Title
                         Text(
                           product.title,
                           style: boldStyle.copyWith(fontSize: 20),
@@ -70,6 +78,7 @@ class ProductItem extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
+                        // Product Description
                         Text(
                           product.description,
                           overflow: TextOverflow.ellipsis,
@@ -79,6 +88,8 @@ class ProductItem extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
+
+                        // Product Rate
                         Row(
                           children: [
                             Spacer(),
