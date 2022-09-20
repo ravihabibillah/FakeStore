@@ -61,13 +61,16 @@ class _DetailProductPageState extends State<DetailProductPage> {
         child: Column(
           children: [
             // Product Image
-            Container(
-              height: MediaQuery.of(context).size.height / 2,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: grayColor.withOpacity(0.2),
-                image: DecorationImage(
-                  image: NetworkImage(widget.product.image),
+            Hero(
+              tag: widget.product.image,
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: grayColor.withOpacity(0.2),
+                  image: DecorationImage(
+                    image: NetworkImage(widget.product.image),
+                  ),
                 ),
               ),
             ),
