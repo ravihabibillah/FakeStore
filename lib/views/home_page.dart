@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List Product'),
+        title: const Text('List Product'),
       ),
       body: Obx(
         () {
@@ -42,13 +42,17 @@ class HomePage extends StatelessWidget {
               child: Text(productController.message.value),
             );
           } else {
-            return Center();
+            return const Center();
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Add Product',
-        child: Icon(Icons.add),
+        backgroundColor: yellowColor,
+        child: Icon(
+          Icons.add,
+          color: blackColor,
+        ),
         onPressed: () {
           Navigation.intentWithoutData(AddUpdateProductPage.routeName);
         },

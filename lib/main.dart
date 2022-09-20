@@ -5,6 +5,7 @@ import 'package:fake_store/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
+import 'common/style.dart';
 import 'data/models/product.dart';
 
 void main() {
@@ -23,6 +24,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          color: yellowColor,
+          titleTextStyle: boldStyle.copyWith(fontSize: 20),
+        ),
       ),
       initialRoute: HomePage.routeName,
       routes: {

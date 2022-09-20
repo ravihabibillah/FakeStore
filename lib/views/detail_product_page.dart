@@ -25,20 +25,24 @@ class _DetailProductPageState extends State<DetailProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail Product'),
+        title: const Text('Detail Product'),
+        leading: BackButton(
+          color: blackColor,
+        ),
         actions: [
           Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
             child: IconButton(
-              icon: Icon(Icons.edit),
+              icon: Icon(Icons.edit, color: greenColor,),
               onPressed: () {
                 Navigation.intentWithProduct(AddUpdateProductPage.routeName, widget.product);
               },
             ),
-            margin: EdgeInsets.symmetric(horizontal: 5.0),
           ),
           Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5.0),
             child: IconButton(
-              icon: Icon(Icons.delete),
+              icon: Icon(Icons.delete, color: redColor,),
               onPressed: () {
                 productController.removeProduct(widget.product.id!);
                 Get.snackbar(
@@ -50,7 +54,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 Navigation.back();
               },
             ),
-            margin: EdgeInsets.symmetric(horizontal: 5.0),
           ),
         ],
       ),
@@ -81,26 +84,26 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         '\$${widget.product.price}',
                         style: boldStyle.copyWith(fontSize: 24),
                       ),
-                      Spacer(),
+                      const Spacer(),
 
                       // Product Rate
                       Container(
-                        padding: EdgeInsets.all(5),
-                        margin: EdgeInsets.only(top: 6, left: 6),
+                        padding: const EdgeInsets.all(5),
+                        margin: const EdgeInsets.only(top: 6, left: 6),
                         decoration: BoxDecoration(
                             // color: grayColor.withOpacity(0.6),
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(5),
                             ),
                             border: Border.all(color: grayColor)),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               size: 16,
                               color: Colors.orange,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
@@ -112,14 +115,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       )
                     ],
                   ),
-                  SizedBox(height: 14),
+                  const SizedBox(height: 14),
 
                   // Product Title
                   Text(
                     widget.product.title,
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  SizedBox(height: 14),
+                  const SizedBox(height: 14),
 
                   // Product Category
                   Row(
@@ -128,12 +131,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         'Category ',
                         style: boldStyle,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
                         decoration: BoxDecoration(
                           color: grayColor.withOpacity(0.4),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
@@ -141,8 +144,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  // Product Descrioption
+                  const SizedBox(height: 12),
+                  // Product Description
                   Text(
                     widget.product.description,
                     textAlign: TextAlign.justify,

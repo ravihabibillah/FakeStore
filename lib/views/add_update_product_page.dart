@@ -29,6 +29,7 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
   String? _selectedValueCategory;
   bool _isUpdate = false;
 
+  @override
   void initState() {
     if (widget.product != null) {
       _titleController.text = widget.product!.title;
@@ -43,11 +44,12 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(child: Text("Men's Clothing"), value: "men's clothing"),
-      DropdownMenuItem(
-          child: Text("Women's Clothing"), value: "women's clothing"),
-      DropdownMenuItem(child: Text("Jewelry"), value: "jewelery"),
-      DropdownMenuItem(child: Text("Electronics"), value: "electronics"),
+      const DropdownMenuItem(
+          value: "men's clothing", child: Text("Men's Clothing")),
+      const DropdownMenuItem(
+          value: "women's clothing", child: Text("Women's Clothing")),
+      const DropdownMenuItem(value: "jewelery", child: Text("Jewelry")),
+      const DropdownMenuItem(value: "electronics", child: Text("Electronics")),
     ];
     return menuItems;
   }
@@ -68,150 +70,160 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
           _isUpdate ? "Edit Product" : "Add Product",
           // style: blackStyle,
         ),
+        leading: BackButton(
+          color: blackColor,
+        ),
       ),
       resizeToAvoidBottomInset: false,
-      body: Form(
-        key: _productFormKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              // Form Judul
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                    label: const Text('Title'),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Title required';
-                  }
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              DropdownButtonFormField(
-                items: dropdownItems,
-                value: _selectedValueCategory,
-                onChanged: (newValue) {
-                  _selectedValueCategory = newValue;
-                },
-                decoration: InputDecoration(
-                  label: const Text('Category'),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Categoryy required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-
-              // Form Price
-              TextFormField(
-                keyboardType: TextInputType.number,
-                controller: _priceController,
-                decoration: InputDecoration(
-                    label: const Text('Price'),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Price required';
-                  }
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-
-              // Form Deskripsi
-              TextFormField(
-                keyboardType: TextInputType.multiline,
-                controller: _descriptionController,
-                decoration: InputDecoration(
-                    label: const Text('Description'),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Description required';
-                  }
-                },
-                maxLength: 140,
-                minLines: 4,
-                maxLines: 5,
-              ),
-              const SizedBox(height: 30.0),
-
-              // Form Image url
-              TextFormField(
-                keyboardType: TextInputType.url,
-                controller: _imageUrlController,
-                decoration: InputDecoration(
-                    label: const Text('Image url'),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Image url required';
-                  }
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-
-              // Button Submit
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: yellowColor),
-                onPressed: () async {
-                  if (_productFormKey.currentState!.validate()) {
-                    Rating rating = Rating(rate: 0.0, count: 0);
-
-                    Product data = Product(
-                        title: _titleController.text,
-                        price: double.parse(
-                            _priceController.text.replaceAll(",", "")),
-                        description: _descriptionController.text,
-                        image: _imageUrlController.text,
-                        rating: rating,
-                        category: _selectedValueCategory);
-
-                    if (!_isUpdate) {
-                      await productController.addProduct(data);
-                    } else {
-                      data.id = widget.product?.id;
-                      await productController.updateProduct(data);
+      body: SingleChildScrollView(
+        child: Form(
+          key: _productFormKey,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 25.0, vertical: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                // Form Judul
+                TextFormField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                      label: const Text('Title'),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Title required';
                     }
-
-                    Get.snackbar(
-                      _isUpdate
-                          ? 'Update Product Message'
-                          : 'Add Product Message',
-                      productController.message.value,
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: grayColor,
-                    );
-
-                    Navigation.back();
-                  }
-                },
-                child: Text(
-                  'Submit',
-                  style: blackStyle,
+                    return null;
+                  },
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 30,
+                ),
+                DropdownButtonFormField(
+                  items: dropdownItems,
+                  value: _selectedValueCategory,
+                  onChanged: (newValue) {
+                    _selectedValueCategory = newValue;
+                  },
+                  decoration: InputDecoration(
+                    label: const Text('Category'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Categoryy required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+
+                // Form Price
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  controller: _priceController,
+                  decoration: InputDecoration(
+                      label: const Text('Price'),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Price required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+
+                // Form Deskripsi
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                      label: const Text('Description'),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Description required';
+                    }
+                    return null;
+                  },
+                  maxLength: 140,
+                  minLines: 4,
+                  maxLines: 5,
+                ),
+                const SizedBox(height: 30.0),
+
+                // Form Image url
+                TextFormField(
+                  keyboardType: TextInputType.url,
+                  controller: _imageUrlController,
+                  decoration: InputDecoration(
+                      label: const Text('Image url'),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Image url required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+
+                // Button Submit
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: yellowColor),
+                  onPressed: () async {
+                    if (_productFormKey.currentState!.validate()) {
+                      Rating rating = Rating(rate: 0.0, count: 0);
+
+                      Product data = Product(
+                          title: _titleController.text,
+                          price: double.parse(
+                              _priceController.text.replaceAll(",", "")),
+                          description: _descriptionController.text,
+                          image: _imageUrlController.text,
+                          rating: rating,
+                          category: _selectedValueCategory);
+
+                      if (!_isUpdate) {
+                        await productController.addProduct(data);
+                      } else {
+                        data.id = widget.product?.id;
+                        await productController.updateProduct(data);
+                      }
+
+                      Get.snackbar(
+                        _isUpdate
+                            ? 'Update Product Message'
+                            : 'Add Product Message',
+                        productController.message.value,
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: grayColor,
+                      );
+
+                      Navigation.back();
+                    }
+                  },
+                  child: Text(
+                    'Submit',
+                    style: boldStyle,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
