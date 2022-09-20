@@ -27,7 +27,7 @@ class ProductItem extends StatelessWidget {
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-            height: 190,
+            height: 200,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -93,21 +93,23 @@ class ProductItem extends StatelessWidget {
                         ),
 
                         // Product Rate
-                        Row(
-                          children: [
-                            const Spacer(),
-                            const Icon(
-                              Icons.star,
-                              size: 16,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${product.rating.rate}',
-                              style: boldStyle,
-                            )
-                          ],
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              const Icon(
+                                Icons.star,
+                                size: 16,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '${product.rating.rate}',
+                                style: boldStyle,
+                              )
+                            ],
+                          ),
                         )
                       ],
                     ),
