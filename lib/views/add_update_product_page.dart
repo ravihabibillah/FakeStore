@@ -26,6 +26,7 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
 
   final ProductController productController = Get.put(ProductController());
 
+  String? _selectedValueCategory;
   bool _isUpdate = false;
 
   void initState() {
@@ -34,10 +35,21 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
       _descriptionController.text = widget.product!.description;
       _priceController.text = widget.product!.price.toString();
       _imageUrlController.text = widget.product!.description;
-
+      _selectedValueCategory = widget.product?.category;
       _isUpdate = true;
     }
     super.initState();
+  }
+
+  List<DropdownMenuItem<String>> get dropdownItems {
+    List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(child: Text("Men's Clothing"), value: "men's clothing"),
+      DropdownMenuItem(
+          child: Text("Women's Clothing"), value: "women's clothing"),
+      DropdownMenuItem(child: Text("Jewelry"), value: "jewelery"),
+      DropdownMenuItem(child: Text("Electronics"), value: "electronics"),
+    ];
+    return menuItems;
   }
 
   @override
@@ -76,6 +88,28 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
                   if (value == null || value.isEmpty) {
                     return 'Title required';
                   }
+                },
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              DropdownButtonFormField(
+                items: dropdownItems,
+                value: _selectedValueCategory,
+                onChanged: (newValue) {
+                  _selectedValueCategory = newValue;
+                },
+                decoration: InputDecoration(
+                  label: const Text('Category'),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Categoryy required';
+                  }
+                  return null;
                 },
               ),
               SizedBox(
@@ -145,14 +179,13 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
                     Rating rating = Rating(rate: 0.0, count: 0);
 
                     Product data = Product(
-                      title: _titleController.text,
-                      price: double.parse(
-                          _priceController.text.replaceAll(",", "")),
-                      description: _descriptionController.text,
-                      // category: category,
-                      image: _imageUrlController.text,
-                      rating: rating,
-                    );
+                        title: _titleController.text,
+                        price: double.parse(
+                            _priceController.text.replaceAll(",", "")),
+                        description: _descriptionController.text,
+                        image: _imageUrlController.text,
+                        rating: rating,
+                        category: _selectedValueCategory);
 
                     if (!_isUpdate) {
                       await productController.addProduct(data);
@@ -162,7 +195,9 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
                     }
 
                     Get.snackbar(
-                      _isUpdate ? 'Update Product Message' : 'Add Product Message',
+                      _isUpdate
+                          ? 'Update Product Message'
+                          : 'Add Product Message',
                       productController.message.value,
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: grayColor,

@@ -42,7 +42,7 @@ class Product {
     "title": title,
     "price": price,
     "description": description,
-    // "category": category,
+    "category": category,
     "image": image,
     "rating": rating.toJson(),
   };
