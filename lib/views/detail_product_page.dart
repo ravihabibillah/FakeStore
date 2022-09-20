@@ -110,8 +110,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               width: 5,
                             ),
                             Text(
-                              '${widget.product.rating.rate}',
-                              style: boldStyle,
+                              '${widget.product.rating.rate} (${widget.product.rating.count})',
+                              style: boldStyle.copyWith(fontSize: 12),
                             )
                           ],
                         ),
