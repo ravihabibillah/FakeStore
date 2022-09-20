@@ -13,10 +13,10 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Card(
         elevation: 2,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(16),
           ),
@@ -26,7 +26,7 @@ class ProductItem extends StatelessWidget {
             Navigation.intentWithProduct(DetailProductPage.routeName, product);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
             height: 190,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,19 +36,22 @@ class ProductItem extends StatelessWidget {
                     children: [
                       // Image Product
                       Center(
-                        child: Image.network(
-                          product.image,
-                          width: 100,
+                        child: Hero(
+                          tag: product.image,
+                          child: Image.network(
+                            product.image,
+                            width: 100,
+                          ),
                         ),
                       ),
 
                       // Price
                       Container(
-                        padding: EdgeInsets.all(3),
-                        margin: EdgeInsets.only(top: 6, left: 6),
+                        padding: const EdgeInsets.all(3),
+                        margin: const EdgeInsets.only(top: 6, left: 6),
                         decoration: BoxDecoration(
                           color: grayColor.withOpacity(0.6),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
@@ -60,7 +63,7 @@ class ProductItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Flexible(
                   flex: 2,
                   child: Padding(
@@ -75,7 +78,7 @@ class ProductItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         // Product Description
@@ -85,19 +88,19 @@ class ProductItem extends StatelessWidget {
                           maxLines: 4,
                           textAlign: TextAlign.justify,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
 
                         // Product Rate
                         Row(
                           children: [
-                            Spacer(),
-                            Icon(
+                            const Spacer(),
+                            const Icon(
                               Icons.star,
                               size: 16,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
