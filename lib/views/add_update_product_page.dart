@@ -35,7 +35,7 @@ class _AddUpdateProductPageState extends State<AddUpdateProductPage> {
       _titleController.text = widget.product!.title;
       _descriptionController.text = widget.product!.description;
       _priceController.text = widget.product!.price.toString();
-      _imageUrlController.text = widget.product!.description;
+      _imageUrlController.text = widget.product!.image;
       _selectedValueCategory = widget.product?.category;
       _isUpdate = true;
     }
